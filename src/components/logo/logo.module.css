@@ -1,0 +1,63 @@
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.alarmClock {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.switchButton {
+    width: 17px;
+    height: 4px;
+    background-color: #333;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 40px;
+}
+
+.clockFace {
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 4px solid #333;
+    position: relative;
+}
+
+.hand {
+    position: absolute;
+    background-color: #333;
+    width: 4px;
+    height: 15px;
+    bottom: 64%;
+    left: 50%;
+    transform: translateX(-50%) translateY(50%) rotate(0deg);
+    transform-origin: bottom;
+    border-radius: 10px;
+}
+
+.bellArm {
+    position: absolute;
+    width: 4px;
+    height: 6px;
+    background-color: #333;
+    transform: rotate(47deg);
+    top: 2px;
+    right: 2px;
+    border-radius: 10px;
+}
+
+.text {
+    margin-left: 10px; 
+    color: white;
+    text-align: left;
+}
+
+.text h2 {
+    margin: 0;
+    font-style: italic;
+}
