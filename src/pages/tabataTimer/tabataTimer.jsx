@@ -1,4 +1,3 @@
-
 import { useSelector } from 'react-redux'
 import { InitialTimer } from './initialTimer/initialTimer'
 import { WorkoutTimer } from './workoutTimer/workoutTimer'

@@ -1,39 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { startTimer, selectProgram, fetchWorkoutPrograms } from '../../../redux/slices/workoutTimerSlice'
+import { selectProgram, fetchWorkoutPrograms } from '../../../redux/slices/workoutTimerSlice'
+import { WorkoutDetails } from '../workoutDetails/workoutDetails';
+import { CustomTimer } from '../customTimer/customTimer';
 
 export const InitialTimer = () => {
   const dispatch = useDispatch()
   const { workoutPrograms, loading } = useSelector((state) => state.workoutTimer)
-  const { selectedProgram } = useSelector((state) => state.workoutTimer.timer)
+  const [showCustomTimer, setShowCustomTimer] = useState(false)
 
   useEffect(() => {
     dispatch(fetchWorkoutPrograms())
   }, [dispatch])
 
-  const handleStart = () => {
-    dispatch(startTimer())
-  }
-
   const handleSelectProgram = (program) => {
     dispatch(selectProgram(program))
-  }
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60)
-    const seconds = time % 60
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
-  }
-
-  const calculateTotalTime = (program) => {
-    if (!program) return 0
-
-    const workTime = program.workTime || 0
-    const restTime = program.restTime || 0
-    const cycles = program.cycles || 0
-
-    const preparationTime = 10
-    return preparationTime + cycles * (workTime + restTime)
+    setShowCustomTimer(false)
   }
 
   return (
@@ -56,20 +38,12 @@ export const InitialTimer = () => {
           <p>Нет доступных программ.</p>
         )}
       </ul>
-      <h2>Тренировка</h2>
-      {selectedProgram ? (
-        <>
-          <h3>{selectedProgram.name}</h3>
-          <p>{selectedProgram.description}</p>
-        </>
+      <div onClick={() => setShowCustomTimer(true)}>Настроить самостоятельно</div>
+      {showCustomTimer ? (
+        <CustomTimer />
       ) : (
-        <p>Выберите тренировку или настройте её самостоятельно</p>
+        <WorkoutDetails />
       )}
-      <p>Время раундов: {selectedProgram ? formatTime(selectedProgram.workTime) : '00:00'}</p>
-      <p>Количество раундов: {selectedProgram ? selectedProgram.cycles : '0'}</p>
-      <p>Время отдыха: {selectedProgram ? formatTime(selectedProgram.restTime) : '00:00'}</p>
-      <p>Общее время: {formatTime(calculateTotalTime(selectedProgram))}</p>
-      <button onClick={handleStart} disabled={!selectedProgram}>Старт</button>
     </div>
   );
 };
