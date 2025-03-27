@@ -7,7 +7,6 @@ export const CustomTimer = () => {
   const dispatch = useDispatch();
   const { workTime, restTime, rounds } = useSelector((state) => state.workoutTimer.timer.customSettings);
 
-  // Локальное состояние для хранения пользовательских настроек
   const [customWorkTime, setCustomWorkTime] = useState(workTime);
   const [customRestTime, setCustomRestTime] = useState(restTime);
   const [customRounds, setCustomRounds] = useState(rounds);
