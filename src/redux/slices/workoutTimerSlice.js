@@ -20,21 +20,14 @@ const initialState = {
     phase: '', 
     isRunning: false,
     isStarted: false,
-    selectedProgram: null
+    selectedProgram: null,
+    customSettings: {
+      workTime: 10,
+      restTime: 3,
+      rounds: 4
+    }
   }
 }
-
-// const initialState = {
-//   workoutPrograms: [],
-//   loading: false,
-//   time: 10,
-//   rounds: 0,
-//   currentRound: 1,
-//   phase: 'preparation', 
-//   isRunning: false,
-//   isStarted: false,
-//   selectedProgram: null,
-// }
 
 const workoutTimerSlice = createSlice({
   name: 'workoutTimer',
@@ -48,12 +41,27 @@ const workoutTimerSlice = createSlice({
         state.timer.phase = 'preparation'
         state.timer.time = 10
       } 
+
+      if (!state.timer.selectedProgram) {
+        state.timer.rounds = state.timer.customSettings.rounds;
+      }
     },
     stopTimer: (state) => {
       state.timer.isRunning = false
     },
+    setCustomTimer: (state, action) => {
+      const { workTime, restTime, rounds } = action.payload;
+      state.timer.selectedProgram = null;
+      state.timer.customSettings = {
+        workTime,
+        restTime,
+        rounds
+      };
+    },
     resetTimer: (state) => {
-      state.timer.time = state.timer.selectedProgram ? state.timer.selectedProgram.workTime : 10
+      state.timer.time = state.timer.selectedProgram 
+        ? state.timer.selectedProgram.workTime 
+        : state.timer.customSettings.workTime
       state.timer.currentRound = 1
       state.timer.phase = 'preparation'
       state.timer.isRunning = false
@@ -72,21 +80,27 @@ const workoutTimerSlice = createSlice({
 
         if (state.timer.phase === 'preparation' && state.timer.time === 0) {
           state.timer.phase = 'workout'
-          state.timer.time = state.timer.selectedProgram ? state.timer.selectedProgram.workTime : 20
+          state.timer.time = state.timer.selectedProgram 
+            ? state.timer.selectedProgram.workTime 
+            : state.timer.customSettings.workTime
           return
         }
 
         if (state.timer.phase === 'workout' && state.timer.time === 0) {
           state.timer.currentRound++
           state.timer.phase = 'rest'
-          state.timer.time = state.timer.selectedProgram ? state.timer.selectedProgram.restTime : 10
+          state.timer.time = state.timer.selectedProgram 
+            ? state.timer.selectedProgram.restTime 
+            : state.timer.customSettings.restTime
           return
         } 
         
         if (state.timer.phase === 'rest' && state.timer.time === 0) {
-          if (state.timer.currentRound < state.timer.rounds) {
+          if (state.timer.currentRound <= state.timer.rounds) {
             state.timer.phase = 'workout'
-            state.timer.time = state.timer.selectedProgram ? state.timer.selectedProgram.workTime : 20
+            state.timer.time = state.timer.selectedProgram 
+              ? state.timer.selectedProgram.workTime 
+              : state.timer.customSettings.workTime
             return
           }
           
@@ -106,7 +120,7 @@ const workoutTimerSlice = createSlice({
   },
 })
 
-export const { startTimer, stopTimer, resetTimer, tick, selectProgram } = workoutTimerSlice.actions
+export const { startTimer, stopTimer, setCustomTimer, resetTimer, tick, selectProgram } = workoutTimerSlice.actions
 export default workoutTimerSlice.reducer
 
 
