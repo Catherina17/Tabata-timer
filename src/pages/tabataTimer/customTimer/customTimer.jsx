@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { startTimer, setCustomTimer } from '../../../redux/slices/workoutTimerSlice';
 import { InputField } from '../../../components/ui/input/input';
+import { Button } from '../../../components/ui/button/button';
+import { controlStartSound, initializeStartSound } from '../../../components/services/soundPlayer';
 
 export const CustomTimer = () => {
   const dispatch = useDispatch();
@@ -13,8 +15,16 @@ export const CustomTimer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(setCustomTimer({ workTime: customWorkTime, restTime: customRestTime, rounds: customRounds }));
-    dispatch(startTimer());
+
+    dispatch(setCustomTimer({ 
+        workTime: customWorkTime, 
+        restTime: customRestTime, 
+        rounds: customRounds 
+    }))
+    dispatch(startTimer())
+
+    initializeStartSound()
+    controlStartSound('play')
   };
 
     return (
@@ -36,7 +46,7 @@ export const CustomTimer = () => {
                     value={customRounds} 
                     onChange={(e) => setCustomRounds(Number(e.target.value))} 
                 />
-                <button type="submit">Сохранить и начать</button>
+                <Button type="submit">Сохранить и начать</Button>
             </form>
         </div>
     );

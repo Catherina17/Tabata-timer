@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { startTimer, stopTimer, resetTimer, tick } from '../../../redux/slices/workoutTimerSlice'
+import { controlStartSound } from '../../../components/services/soundPlayer'
+import { Button } from '../../../components/ui/button/button'
 
 export const WorkoutTimer = () => {
     const dispatch = useDispatch()
@@ -20,14 +22,17 @@ export const WorkoutTimer = () => {
 
     const handleStart = () => {
         dispatch(startTimer())
+        controlStartSound('resume')
     }
 
     const handleStop = () => {
         dispatch(stopTimer())
+        controlStartSound('pause')
     }
 
     const handleReset = () => {
         dispatch(resetTimer())
+        controlStartSound('pause')
     }
 
     const formatTime = (time) => {
@@ -35,8 +40,6 @@ export const WorkoutTimer = () => {
         const seconds = time % 60
         return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
     }
-
-    
 
     return (
         <div style={{ textAlign: 'center', marginTop: '50px' }}>
@@ -50,9 +53,9 @@ export const WorkoutTimer = () => {
                     <h4>Раунд: {currentRound}/{rounds}</h4>
                 </div>
             )}
-            <button onClick={handleReset}>Вернуться к выбору</button>
-            <button onClick={handleStop} disabled={!isRunning}>Пауза</button>
-            {!isRunning && <button onClick={handleStart}>Продолжить</button>}
+            <Button onClick={handleReset}>Вернуться к выбору</Button>
+            <Button onClick={handleStop} disabled={!isRunning}>Пауза</Button>
+            {!isRunning && <Button onClick={handleStart}>Продолжить</Button>}
         </div>
     )
 }

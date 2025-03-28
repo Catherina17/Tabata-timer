@@ -1,12 +1,24 @@
+// import { useRef } from "react" 
 import { useSelector, useDispatch } from "react-redux"
 import { startTimer } from "../../../redux/slices/workoutTimerSlice"
+import { controlStartSound, initializeStartSound } from "../../../components/services/soundPlayer"
+import { Button } from "../../../components/ui/button/button"
 
 export const WorkoutDetails = () => {
     const dispatch = useDispatch()
     const { selectedProgram  } = useSelector((state) => state.workoutTimer.timer)
+    // const audioInitialized = useRef(false)
 
     const handleStart = () => {
+        // if (!audioInitialized.current) {
+        //     initializeStartSound()
+        //     audioInitialized.current = true
+        // }
+
         dispatch(startTimer())
+
+        initializeStartSound()
+        controlStartSound('play')
     }
 
     const formatTime = (time) => {
@@ -41,7 +53,7 @@ export const WorkoutDetails = () => {
             <p>Количество раундов: {selectedProgram ? selectedProgram.cycles : '0'}</p>
             <p>Время отдыха: {selectedProgram ? formatTime(selectedProgram.restTime) : '00:00'}</p>
             <p>Общее время: {formatTime(calculateTotalTime(selectedProgram))}</p>
-            <button onClick={handleStart} disabled={!selectedProgram}>Старт!</button>
+            <Button onClick={handleStart} disabled={!selectedProgram}>Старт!</Button>
         </div>
     )
 }

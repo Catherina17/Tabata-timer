@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { workoutAPI } from '../../api/workoutAPI'
+// import { stopStartSound } from '../../components/services/soundPlayer'
+import { playWorkSound } from '../../components/services/soundPlayer'
+import { playRestSound } from '../../components/services/soundPlayer'
+import { playEndSound } from '../../components/services/soundPlayer'
 
 export const fetchWorkoutPrograms = createAsyncThunk(
   'workout/fetchPrograms',
@@ -82,6 +86,7 @@ const workoutTimerSlice = createSlice({
           state.timer.time = state.timer.selectedProgram 
             ? state.timer.selectedProgram.workTime 
             : state.timer.customSettings.workTime
+          playWorkSound()
           return
         }
 
@@ -91,6 +96,7 @@ const workoutTimerSlice = createSlice({
           state.timer.time = state.timer.selectedProgram 
             ? state.timer.selectedProgram.restTime 
             : state.timer.customSettings.restTime
+          playRestSound()
           return
         } 
         
@@ -100,10 +106,12 @@ const workoutTimerSlice = createSlice({
             state.timer.time = state.timer.selectedProgram 
               ? state.timer.selectedProgram.workTime 
               : state.timer.customSettings.workTime
+            playWorkSound()
             return
           }
           
           state.timer.isRunning = false
+          playEndSound()
         }
       }
     },

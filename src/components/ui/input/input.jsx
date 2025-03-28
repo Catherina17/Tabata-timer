@@ -2,10 +2,10 @@ export const InputField = ({ label, value, onChange }) => (
     <div>
       <label>{label}</label>
       <input 
-        type="number" 
+        type='number'
         value={value}
         onChange={onChange}
-        min="1"
+        min='1'
       />
     </div>
 );
