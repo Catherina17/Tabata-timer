@@ -1,0 +1,28 @@
+.firstScreen {
+    max-width: 1800px;
+    width: 100%;
+}
+
+.imageContainer {
+    position: relative; 
+    margin-top: -80px;
+    z-index: 4;
+}
+
+.backgroundImage {
+    width: 100%; 
+    height: auto; 
+    display: block;
+}
+
+.textOverlay {
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center; 
+    padding: 20px; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    border-radius: 10px; 
+}

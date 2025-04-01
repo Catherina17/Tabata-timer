@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { workoutAPI } from '../../api/workoutAPI'
+import { playWorkSound } from '../../components/services/soundPlayer'
+import { playRestSound } from '../../components/services/soundPlayer'
+import { playEndSound } from '../../components/services/soundPlayer'
 
 export const fetchWorkoutPrograms = createAsyncThunk(
   'workout/fetchPrograms',
@@ -42,20 +45,20 @@ const workoutTimerSlice = createSlice({
       } 
 
       if (!state.timer.selectedProgram) {
-        state.timer.rounds = state.timer.customSettings.rounds;
+        state.timer.rounds = state.timer.customSettings.rounds
       }
     },
     stopTimer: (state) => {
       state.timer.isRunning = false
     },
     setCustomTimer: (state, action) => {
-      const { workTime, restTime, rounds } = action.payload;
-      state.timer.selectedProgram = null;
+      const { workTime, restTime, rounds } = action.payload
+      state.timer.selectedProgram = null
       state.timer.customSettings = {
         workTime,
         restTime,
         rounds
-      };
+      }
     },
     resetTimer: (state) => {
       state.timer.time = state.timer.selectedProgram 
@@ -74,40 +77,54 @@ const workoutTimerSlice = createSlice({
       state.timer.phase = 'preparation'
     },
     tick: (state) => {
-      if (state.timer.isRunning && state.timer.time > 0) {
-        state.timer.time -= 1
-
-        if (state.timer.phase === 'preparation' && state.timer.time === 0) {
-          state.timer.phase = 'workout'
-          state.timer.time = state.timer.selectedProgram 
-            ? state.timer.selectedProgram.workTime 
-            : state.timer.customSettings.workTime
-          return
-        }
-
-        if (state.timer.phase === 'workout' && state.timer.time === 0) {
-          state.timer.currentRound++
-          state.timer.phase = 'rest'
-          state.timer.time = state.timer.selectedProgram 
-            ? state.timer.selectedProgram.restTime 
-            : state.timer.customSettings.restTime
-          return
-        } 
-        
-        if (state.timer.phase === 'rest' && state.timer.time === 0) {
-          if (state.timer.currentRound <= state.timer.rounds) {
+      if (!state.timer.isRunning || state.timer.time <= 0) {
+        return
+      }
+  
+      state.timer.time -= 1;
+  
+      switch (state.timer.phase) {
+        case 'preparation':
+          if (state.timer.time === 0) {
+            state.timer.phase = 'workout';
+            state.timer.time = state.timer.selectedProgram 
+              ? state.timer.selectedProgram.workTime 
+              : state.timer.customSettings.workTime
+            playWorkSound()
+          }
+          break;
+  
+        case 'workout':
+          if (state.timer.time === 0) {
+            if (state.timer.currentRound < state.timer.rounds) {
+              state.timer.currentRound++
+              state.timer.phase = 'rest'
+              state.timer.time = state.timer.selectedProgram 
+                ? state.timer.selectedProgram.restTime 
+                : state.timer.customSettings.restTime
+              playRestSound()
+            } else {
+              state.timer.isRunning = false
+              playEndSound()
+            }
+          }
+          break;
+  
+        case 'rest':
+          if (state.timer.time === 0) {
             state.timer.phase = 'workout'
             state.timer.time = state.timer.selectedProgram 
               ? state.timer.selectedProgram.workTime 
               : state.timer.customSettings.workTime
-            return
+            playWorkSound()
           }
-          
-          state.timer.isRunning = false
-        }
+          break;
+  
+        default:
+          break; 
       }
-    },
-  },
+  }
+},
   extraReducers: (builder) => {
     builder.addCase(fetchWorkoutPrograms.pending, (state) => {
       state.loading = true
@@ -119,5 +136,5 @@ const workoutTimerSlice = createSlice({
   },
 })
 
-export const { startTimer, stopTimer, setCustomTimer, resetTimer, tick, selectProgram } = workoutTimerSlice.actions
+export const { startTimer, stopTimer, setCustomTimer, resetTimer, selectProgram, tick } = workoutTimerSlice.actions
 export default workoutTimerSlice.reducer
