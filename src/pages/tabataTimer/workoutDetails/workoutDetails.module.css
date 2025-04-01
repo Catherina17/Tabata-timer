@@ -1,1 +1,9 @@
+.underline {
+    text-decoration: underline;   
+}
+
+.styledDescription {
+    margin-bottom: 25px; 
+    font-style: italic;
+}
 

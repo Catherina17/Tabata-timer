@@ -1,0 +1,21 @@
+.inputField {
+    margin-bottom: 20px; 
+}
+
+.inputField input {
+    border: none; 
+    border-bottom: 1px solid rgba(68, 68, 68, 0.2); 
+    outline: none; 
+    padding: 5px; 
+    font-size: 16px;
+}
+
+.inputField input::-webkit-inner-spin-button,
+.inputField input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.inputField input:focus {
+    border-bottom: 2px solid #282c34;
+}

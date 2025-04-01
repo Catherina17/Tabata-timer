@@ -1,0 +1,42 @@
+.container {
+    background:  #f4f4f4; 
+}
+
+.content {
+    background-color: white;
+    padding: 30px;
+    max-width: 800px; 
+    margin: 0 auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.photo {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.photo img {
+    max-width: 600px;
+    max-height: 400px;
+}
+
+.quote {
+    border-left: solid 3px #484343;
+    font-style: italic;
+    margin: 15px;
+    padding: 10px 30px;
+}
+
+.centeredList {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+.centeredList li {
+    padding: 7px 0;
+    width: 50%;
+    margin-bottom: 7px;
+    border-bottom: solid 1px grey;
+    margin: 5px auto;
+}

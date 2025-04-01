@@ -1,8 +1,9 @@
 // import { useRef } from "react" 
-import { useSelector, useDispatch } from "react-redux"
-import { startTimer } from "../../../redux/slices/workoutTimerSlice"
-import { controlStartSound, initializeStartSound } from "../../../components/services/soundPlayer"
-import { Button } from "../../../components/ui/button/button"
+import { useSelector, useDispatch } from 'react-redux'
+import { startTimer } from '../../../redux/slices/workoutTimerSlice'
+import { controlStartSound, initializeStartSound } from '../../../components/services/soundPlayer'
+import { Button } from '../../../components/ui/button/button'
+import styles from './workoutDetails.module.css'
 
 export const WorkoutDetails = () => {
     const dispatch = useDispatch()
@@ -39,21 +40,24 @@ export const WorkoutDetails = () => {
     }
 
     return (
-        <div>
+        <>
             <h2>Тренировка</h2>
             {selectedProgram ? (
                 <>
-                    <h3>{selectedProgram.name}</h3>
-                    <p>{selectedProgram.description}</p>
+                    <h3 className={styles.underline}>{selectedProgram.name}</h3>
+                    <p className={styles.styledDescription}>{selectedProgram.description}</p>
                 </>
             ) : (
-                <p>Выберите тренировку или настройте её самостоятельно</p>
+                <>
+                    <h3>Готовы начать?</h3>
+                    <p className={styles.styledDescription}>Выберите тренировку или настройте её самостоятельно</p>
+                </>
             )}
             <p>Время раундов: {selectedProgram ? formatTime(selectedProgram.workTime) : '00:00'}</p>
             <p>Количество раундов: {selectedProgram ? selectedProgram.cycles : '0'}</p>
             <p>Время отдыха: {selectedProgram ? formatTime(selectedProgram.restTime) : '00:00'}</p>
             <p>Общее время: {formatTime(calculateTotalTime(selectedProgram))}</p>
-            <Button onClick={handleStart} disabled={!selectedProgram}>Старт!</Button>
-        </div>
+            <Button onClick={handleStart} disabled={!selectedProgram}>СТАРТ!</Button>
+        </>
     )
 }

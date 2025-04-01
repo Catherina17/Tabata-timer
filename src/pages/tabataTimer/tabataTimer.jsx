@@ -10,5 +10,5 @@ export const TabataTimer = () => {
       {!isStarted && <InitialTimer/>}
       {isStarted && <WorkoutTimer />}
     </>
-  );
-};
+  )
+}
