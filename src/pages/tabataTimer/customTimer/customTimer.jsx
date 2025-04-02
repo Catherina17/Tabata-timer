@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { startTimer, setCustomTimer } from '../../../redux/slices/workoutTimerSlice'
 import { InputField } from '../../../components/ui/input/input'
@@ -7,40 +6,36 @@ import { controlStartSound, initializeStartSound } from '../../../components/ser
 import styles from './customTimer.module.css'
 
 export const CustomTimer = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const { workTime, restTime, rounds } = useSelector((state) => state.workoutTimer.timer.customSettings)
-
-  const [customWorkTime, setCustomWorkTime] = useState(workTime)
-  const [customRestTime, setCustomRestTime] = useState(restTime)
-  const [customRounds, setCustomRounds] = useState(rounds)
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
     dispatch(setCustomTimer({ 
-        workTime: customWorkTime, 
-        restTime: customRestTime, 
-        rounds: customRounds 
+        workTime, 
+        restTime, 
+        rounds 
     }))
     dispatch(startTimer())
 
     initializeStartSound()
     controlStartSound('play')
-  };
+  }
 
   const handleWorkTimeChange = (e) => {
     const value = e.target.value === '' ? '' : Number(e.target.value)
-    setCustomWorkTime(value)
+    dispatch(setCustomTimer({ workTime: value, restTime, rounds }))
   }
 
   const handleRestTimeChange = (e) => {
     const value = e.target.value === '' ? '' : Number(e.target.value)
-    setCustomRestTime(value)
+    dispatch(setCustomTimer({ workTime, restTime: value, rounds }))
   }
 
   const handleRoundsChange = (e) => {
     const value = e.target.value === '' ? '' : Number(e.target.value)
-    setCustomRounds(value)
+    dispatch(setCustomTimer({ workTime, restTime, rounds: value }))
   }
 
   return (
@@ -52,17 +47,17 @@ export const CustomTimer = () => {
       <form onSubmit={handleSubmit}>
         <InputField 
           label='Время работы (сек): ' 
-          value={customWorkTime} 
+          value={workTime}
           onChange={handleWorkTimeChange} 
         />
         <InputField 
           label='Время отдыха (сек): '
-          value={customRestTime} 
+          value={restTime} 
           onChange={handleRestTimeChange} 
         />
         <InputField 
           label='Количество раундов: '
-          value={customRounds} 
+          value={rounds}
           onChange={handleRoundsChange} 
         />
         <Button type='submit'>Сохранить и начать</Button>
