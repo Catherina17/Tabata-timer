@@ -1,25 +1,19 @@
-// import { useRef } from "react" 
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { startTimer } from '../../../redux/slices/workoutTimerSlice'
-import { controlStartSound, initializeStartSound } from '../../../components/services/soundPlayer'
+import { startTimer, initializeSounds } from '../../../redux/slices/workoutTimerSlice'
 import { Button } from '../../../components/ui/button/button'
 import styles from './workoutDetails.module.css'
 
 export const WorkoutDetails = () => {
     const dispatch = useDispatch()
     const { selectedProgram  } = useSelector((state) => state.workoutTimer.timer)
-    // const audioInitialized = useRef(false)
+
+    useEffect(() => {
+    }, [dispatch]);
 
     const handleStart = () => {
-        // if (!audioInitialized.current) {
-        //     initializeStartSound()
-        //     audioInitialized.current = true
-        // }
-
+        dispatch(initializeSounds())
         dispatch(startTimer())
-
-        initializeStartSound()
-        controlStartSound('play')
     }
 
     const formatTime = (time) => {
