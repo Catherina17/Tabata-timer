@@ -18,7 +18,7 @@
 //             });
 //             break;
 //         case 'pause':
-//             startAudio.pause()
+//             // startAudio.pause()
 //             break;
 //         case 'resume':
 //             startAudio.play().catch(error => {

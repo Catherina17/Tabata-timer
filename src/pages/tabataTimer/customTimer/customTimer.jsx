@@ -1,26 +1,31 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { startTimer, setCustomTimer, initializeSounds } from '../../../redux/slices/workoutTimerSlice'
+import { startTimer, setCustomTimer } from '../../../redux/slices/workoutTimerSlice'
 import { InputField } from '../../../components/ui/input/input'
 import { Button } from '../../../components/ui/button/button'
+import { useAudioPlayer } from '../../../hooks/useAudioPlayer/useAudioPlayer'
 import styles from './customTimer.module.css'
 
 export const CustomTimer = () => {
   const dispatch = useDispatch()
   const { workTime, restTime, rounds } = useSelector((state) => state.workoutTimer.timer.customSettings)
+  
+  const { handleToggleSound } = useAudioPlayer('start')
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-
+    e.preventDefault()
+    
+    console.log("Форма отправлена, воспроизведение звука...")
+    
     dispatch(setCustomTimer({ 
       workTime, 
       restTime, 
       rounds 
     }));
-    dispatch(initializeSounds())
 
-    dispatch(startTimer());
-    
-  }
+    handleToggleSound()
+
+    dispatch(startTimer())    
+  };
 
   const handleWorkTimeChange = (e) => {
     const value = e.target.value === '' ? '' : Number(e.target.value)

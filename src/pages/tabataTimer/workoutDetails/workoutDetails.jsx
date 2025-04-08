@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { startTimer, initializeSounds } from '../../../redux/slices/workoutTimerSlice'
+import { startTimer } from '../../../redux/slices/workoutTimerSlice'
 import { Button } from '../../../components/ui/button/button'
 import styles from './workoutDetails.module.css'
 
@@ -12,7 +12,6 @@ export const WorkoutDetails = () => {
     }, [dispatch]);
 
     const handleStart = () => {
-        dispatch(initializeSounds())
         dispatch(startTimer())
     }
 
