@@ -29,13 +29,12 @@ export const InitialTimer = () => {
         <ul>
           {workoutPrograms.length > 0 ? (
             workoutPrograms.map((program) => (
-              <li key={program.id}>
-                <span 
-                  onClick={() => handleSelectProgram(program)} 
-                  className={activeProgram === program.id && !showCustomTimer ? styles.active : ''}
-                >
-                  {program.name}
-                </span>
+              <li 
+                key={program.id}
+                onClick={() => handleSelectProgram(program)} 
+                className={activeProgram === program.id && !showCustomTimer ? styles.active : ''}
+              >
+                {program.name}
               </li>
             ))
           ) : (

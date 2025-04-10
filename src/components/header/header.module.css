@@ -1,0 +1,58 @@
+.header {
+    max-width: 1800px;
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1a1a1a;
+    text-align: center;
+    padding: 10px;
+    opacity: 0.8;
+}
+    
+.link {
+    font-family: Lato, sans-serif;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: 2px solid transparent; 
+    transition: all 0.3s ease; 
+}
+    
+.link:hover,
+.link.active {
+    border: 2px solid white; 
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(2px);
+}
+    
+    
+    /* Адаптивные стили */
+    @media (min-width: 470px) and (max-width: 650px) {
+        .header {
+            justify-content: center; /* Центрируем содержимое при маленькой ширине */
+        }
+    
+        .link {
+            padding: 5px 5px;
+            margin: 0 5px;
+        }
+    }
+    
+    @media screen and (max-width: 470px) {
+        .link {
+            padding: 5px 10px; /* Уменьшаем отступы для маленьких экранов */
+            margin: 0 5px;
+        }
+
+        .linksContainer {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .header {
+            padding: 0; /* Центрируем содержимое при маленькой ширине */
+        }
+    }
+    

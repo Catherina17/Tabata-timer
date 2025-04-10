@@ -55,7 +55,7 @@ export const Footer = () => {
                         <div className={styles.newsletterForm}>
                             <form action=''>
                                 <label>
-                                    <input type='text' placeholder='Введите ваш email' className={styles.input} />
+                                    <input type='text' placeholder='Enter your email' className={styles.input} />
                                     <img src='./icons/send.svg' alt='send' className={styles.sendIcon} />
                                 </label>
                             </form>

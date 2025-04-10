@@ -19,3 +19,20 @@
 .inputField input:focus {
     border-bottom: 2px solid #282c34;
 }
+
+@media screen and (max-width: 500px) {   
+    .inputField {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .inputField input {
+        max-width: 100px;
+    }
+
+    .inputField label {
+        font-size: 14px;
+    }
+}

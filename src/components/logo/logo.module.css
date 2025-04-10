@@ -62,3 +62,15 @@
     margin: 0;
     font-style: italic;
 }
+
+@media screen and (max-width: 1020px) {
+    .text {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 670px) {
+    .logo {
+        display: none;
+    }
+}

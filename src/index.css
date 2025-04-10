@@ -95,3 +95,21 @@ ul {
   list-style-type: circle; 
   padding-left: 20px;
 }
+
+@media screen and (max-width: 500px) { 
+  p {
+    font-size: 15px;
+  }
+   
+  h1 {
+    font-size: 25px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 17px;
+  }
+}
