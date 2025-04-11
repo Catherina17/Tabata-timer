@@ -16,7 +16,7 @@ const initialState = {
     time: 10,
     rounds: 0,
     currentRound: 1,
-    phase: '',
+    phase: 'preparation',
     isRunning: false,
     isStarted: false,
     selectedProgram: null,
@@ -26,7 +26,12 @@ const initialState = {
       rounds: 4,
     },
   },
-  sounds: [],
+  // currentAudio: {
+  //   id: null,
+  //   isPlaying: false,
+  //   volume: 1, 
+  // },
+  currentAudio: { id: 'preparation', isPlaying: false }  // при инициализации ull - далее {id: phase, isPlaying: isRunning}  - можно добавить timer
 }
 
 const workoutTimerSlice = createSlice({
@@ -94,25 +99,11 @@ const workoutTimerSlice = createSlice({
         }
       }
     },
-    addSound: (state, action) => {
-      console.log("Добавление звука:", action.payload)
+    setAudio: (state, action) => {
+      console.log("Обновление currentAudio:", action.payload)
       
-      state.sounds.push({
-        id: action.payload.id,
-        src: action.payload.src,
-        isPlaying: false,
-        volume: 1,
-      })
+      state.currentAudio = action.payload
     },
-    toggleSound: (state, action) => {
-      const sound = state.sounds.find((s) => s.id === action.payload)
-      console.log("Переключение звука:", sound)
-      
-      if (sound) {
-        sound.isPlaying = !sound.isPlaying
-        console.log("Звук сейчас:", sound.isPlaying ? "играет" : "пауза")
-      }
-    },    
   },
   extraReducers: (builder) => {
     builder.addCase(fetchWorkoutPrograms.pending, (state) => {
@@ -128,5 +119,5 @@ const workoutTimerSlice = createSlice({
   },
 })
 
-export const { startTimer, setCustomTimer, stopTimer, selectProgram, resetTimer, tick, addSound, toggleSound } = workoutTimerSlice.actions
+export const { startTimer, setCustomTimer, stopTimer, selectProgram, resetTimer, tick, setAudio } = workoutTimerSlice.actions
 export default workoutTimerSlice.reducer

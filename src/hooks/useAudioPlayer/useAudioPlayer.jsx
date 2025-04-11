@@ -1,70 +1,71 @@
-import { useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { toggleSound, addSound } from '../../redux/slices/workoutTimerSlice'
-import startSound from '../../assets/sounds/startSound.mp3'
-import workingSound from '../../assets/sounds/workingSound.mp3'
-import restSound from '../../assets/sounds/restSound.mp3'
-import endSound from '../../assets/sounds/endSound.mp3'
+import { useEffect, useRef, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAudio } from '../../redux/slices/workoutTimerSlice';
+import { AUDIO_LIST } from "../../constants/constants.jsx";
 
-export const useAudioPlayer = (id) => {
-    const dispatch = useDispatch()
-    const audioRef = useRef(null)
-    const sound = useSelector((state) => state.workoutTimer.sounds.find((s) => s.id === id))
-    const soundsInState = useSelector((state) => state.workoutTimer.sounds)
+export const useAudioPlayer = () => {
+    const dispatch = useDispatch();
+    const audioRef = useRef(new Audio());
+    const currentAudio = useSelector((state) => state.workoutTimer.currentAudio);
+    const currentTimer = useSelector((state) => state.workoutTimer.timer);
 
+    // Эффект для установки текущего аудио при запуске таймера
     useEffect(() => {
-        const sounds = [
-          { id: 'start', src: startSound },
-          { id: 'working', src: workingSound },
-          { id: 'rest', src: restSound },
-          { id: 'end', src: endSound },
-        ]
+        console.log("Текущий таймер:", currentTimer);
+        if (currentTimer.isRunning && currentTimer.phase) {
+            const audioPayload = {
+                id: currentTimer.phase,
+                isPlaying: currentTimer.isRunning,
+            };
+            console.log("Обновление состояния currentAudio:", audioPayload); // Логируем перед отправкой
+            dispatch(setAudio(audioPayload));
+        }
+    }, [dispatch, currentTimer.isRunning, currentTimer.phase]);
     
-        sounds.forEach((sound) => {
-            if (!soundsInState.some((s) => s.id === sound.id)) {
-                dispatch(addSound(sound))
-            }
-        })
-      }, [dispatch, soundsInState])
 
-    useEffect(() => {
-        if (sound) {
-            console.log("Создание аудио для звука:", sound)
-            audioRef.current = new Audio(sound.src)
-            audioRef.current.volume = sound.volume
+    // Функция для создания аудио объекта
+    const createAudioObject = useCallback(() => {
+        if (currentAudio && currentAudio.id) { // Проверка на наличие currentAudio
+            const audioSrc = AUDIO_LIST[currentAudio.id];
 
-            return () => {
-                if (audioRef.current) {
-                    audioRef.current.pause()
-                    audioRef.current.src = ''
-                    audioRef.current = null
-                    console.log("Аудио ресурс освобожден.")
+            if (audioSrc) { // Проверка, существует ли audioSrc
+                if (audioRef.current.src !== audioSrc) {
+                    audioRef.current.src = audioSrc;
                 }
-            }   
-        }
-    }, [sound])
 
+                if (currentAudio.isPlaying) {
+                    console.log("Воспроизведение звука:", currentAudio.id);
+                    audioRef.current.play().catch(error => {
+                        console.error("Ошибка воспроизведения аудио:", error);
+                    });
+                } else {
+                    console.log("Пауза звука:", currentAudio.isPlaying);
+                    audioRef.current.pause();
+                }
+            }
+        } 
+    }, [currentAudio]); // Добавляем currentAudio как зависимость
+
+    // Функция для очистки аудио
+    const clearAudio = () => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.src = '';
+            console.log("Аудио ресурс освобожден.");
+        }
+    };
+
+    // Эффект для обработки текущего аудио
     useEffect(() => {
-        if (!audioRef.current || !sound) return
+        console.log("Текущий аудио объект:", currentAudio);
+        createAudioObject(); // Теперь вызываем createAudioObject, и он сам проверит currentAudio
 
-        if (sound.isPlaying) {
-            console.log("Воспроизведение звука:", sound.id)
-            audioRef.current.play().catch(error => {
-                console.error("Ошибка воспроизведения аудио:", error)
-            })
-        } else {
-            console.log("Пауза звука:", sound.id)
-            audioRef.current.pause()
-        }
-    }, [sound])
-
-    const handleToggleSound = () => {
-        console.log("Переключение звука:", id)
-        dispatch(toggleSound(id))
-    }
+        return () => {
+            clearAudio();
+        };
+    }, [currentAudio, createAudioObject]);
 
     return {
-        isPlaying: sound?.isPlaying,
-        handleToggleSound,
-    }
-}
+        isPlaying: currentAudio?.isPlaying,
+    };
+};
