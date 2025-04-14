@@ -13,7 +13,6 @@ export const CustomTimer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
     dispatch(setAudio({ id: 'preparation', isPlaying: true }));
 
     dispatch(setCustomTimer({ 
