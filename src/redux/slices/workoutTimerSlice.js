@@ -10,20 +10,20 @@ export const fetchWorkoutPrograms = createAsyncThunk(
 )
 
 const initialState = {
-  workoutPrograms: [],
-  loading: false,
-  timer: {
-    time: 10,
-    rounds: 0,
-    currentRound: 1,
-    phase: 'preparation',
-    isRunning: false,
-    isStarted: false,
-    selectedProgram: null,
-    customSettings: {
-      workTime: 10,
-      restTime: 3,
-      rounds: 4,
+  workoutPrograms: [], // список тренировок с сервера
+  loading: false, // загрузка программ
+  timer: { // объект для состояний таймера
+    time: 10, // время таймера
+    rounds: 0, // количество всех раундов
+    currentRound: 1, // текущий раунд
+    phase: 'preparation', // фаза тренировки
+    isRunning: false, // запущен ли таймер
+    isStarted: false, // для инициализации запуска таймера, был ли он запущен в первый раз или нет
+    selectedProgram: null, // выбранная программа с тренировками
+    customSettings: { // объект с состояниями для пользовательской настройки таймреа
+      workTime: 10, // время таймера для фазы "работа"
+      restTime: 3, // время для фазы "отдыха"
+      rounds: 4, // количество раундов
     },
   },
   // currentAudio: {
@@ -31,7 +31,10 @@ const initialState = {
   //   isPlaying: false,
   //   volume: 1, 
   // },
-  currentAudio: { id: 'preparation', isPlaying: false }  // при инициализации ull - далее {id: phase, isPlaying: isRunning}  - можно добавить timer
+  currentAudio: { // состояние для аудио
+    id: 'preparation', // id звука (название текущей фазы)
+    isPlaying: false // проигрывается ли звук
+  }  // при инициализации null - далее {id: phase, isPlaying: isRunning}  - можно добавить timer
 }
 
 const workoutTimerSlice = createSlice({
