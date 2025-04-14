@@ -7,8 +7,10 @@ import styles from './customTimer.module.css'
 
 export const CustomTimer = () => {
   const dispatch = useDispatch()
-  const { workTime, restTime, rounds } = useSelector((state) => state.workoutTimer.timer.customSettings)
-  
+  const workTime = useSelector((state) => state.workoutTimer.timer.customSettings.workTime)
+  const restTime = useSelector((state) => state.workoutTimer.timer.customSettings.restTime)
+  const rounds = useSelector((state) => state.workoutTimer.timer.customSettings.rounds) 
+
   useAudioPlayer();
 
   const handleSubmit = (e) => {

@@ -6,7 +6,7 @@ import styles from './workoutDetails.module.css'
 
 export const WorkoutDetails = () => {
     const dispatch = useDispatch()
-    const { selectedProgram  } = useSelector((state) => state.workoutTimer.timer)
+    const selectedProgram = useSelector((state) => state.workoutTimer.timer.selectedProgram)
 
     useEffect(() => {
     }, [dispatch]);

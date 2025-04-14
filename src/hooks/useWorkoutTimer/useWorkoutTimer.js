@@ -4,7 +4,11 @@ import { startTimer, stopTimer, resetTimer, tick } from '../../redux/slices/work
 
 export const useWorkoutTimer = () => {
   const dispatch = useDispatch();
-  const { time, rounds, currentRound, phase, isRunning } = useSelector((state) => state.workoutTimer.timer);
+  const time = useSelector((state) => state.workoutTimer.timer.time)
+  const rounds = useSelector((state) => state.workoutTimer.timer.rounds)
+  const currentRound = useSelector((state) => state.workoutTimer.timer.currentRound)
+  const phase = useSelector((state) => state.workoutTimer.timer.phase)
+  const isRunning = useSelector((state) => state.workoutTimer.timer.isRunning)
 
   useEffect(() => {
     let interval;
