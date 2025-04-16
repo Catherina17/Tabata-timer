@@ -1,5 +1,6 @@
 import { useWorkoutTimer } from '../../../hooks/useWorkoutTimer/useWorkoutTimer'
 import { Button } from '../../../components/ui/button/button'
+import { useAudioPlayer } from '../../../hooks/useAudioPlayer/useAudioPlayer'
 import styles from './WorkoutTimer.module.css'
 
 export const WorkoutTimer = () => {
@@ -21,6 +22,8 @@ export const WorkoutTimer = () => {
     workout: 'Работаем',
     default: 'Отдыхаем',
   }
+
+  useAudioPlayer()
 
   return (
     <div className={styles.timerContainer}>

@@ -25,16 +25,16 @@ const initialState = {
       restTime: 3, // время для фазы "отдыха"
       rounds: 4, // количество раундов
     },
+    currentAudio: { // состояние для аудио
+      id: 'preparation', // id звука (название текущей фазы)
+      isPlaying: false // проигрывается ли звук
+    }
   },
   // currentAudio: { // это пробный вариант был
   //   id: null,
   //   isPlaying: false,
   //   volume: 1, 
-  // },
-  currentAudio: { // состояние для аудио
-    id: 'preparation', // id звука (название текущей фазы)
-    isPlaying: false // проигрывается ли звук
-  }  // при инициализации null - далее {id: phase, isPlaying: isRunning}  - можно добавить timer
+  // },  // при инициализации null - далее {id: phase, isPlaying: isRunning}  - можно добавить timer
 }
 
 const workoutTimerSlice = createSlice({
@@ -105,7 +105,7 @@ const workoutTimerSlice = createSlice({
     setAudio: (state, action) => {
       console.log("Обновление currentAudio:", action.payload)
       
-      state.currentAudio = action.payload
+      state.timer.currentAudio = action.payload
     },
   },
   extraReducers: (builder) => {
