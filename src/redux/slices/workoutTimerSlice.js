@@ -47,7 +47,7 @@ const workoutTimerSlice = createSlice({
       if (!state.timer.isStarted) {
         state.timer.isStarted = true
         state.timer.phase = 'preparation'
-        state.timer.time = 10
+        state.timer.time = 5
       }
 
       if (!state.timer.selectedProgram) {
@@ -92,9 +92,10 @@ const workoutTimerSlice = createSlice({
               state.timer.phase = 'rest'
               state.timer.time = state.timer.selectedProgram?.restTime || state.timer.customSettings.restTime
             } else {
-              state.timer.isRunning = false
+              state.timer.phase = 'end'
+              state.timer.isRunning = true
             }
-            break
+            break;
           case 'rest':
             state.timer.phase = 'workout'
             state.timer.time = state.timer.selectedProgram?.workTime || state.timer.customSettings.workTime
@@ -102,9 +103,7 @@ const workoutTimerSlice = createSlice({
         }
       }
     },
-    setAudio: (state, action) => {
-      console.log("Обновление currentAudio:", action.payload)
-      
+    setAudio: (state, action) => {     
       state.timer.currentAudio = action.payload
     },
   },

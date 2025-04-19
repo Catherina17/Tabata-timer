@@ -10,51 +10,42 @@ export const useAudioPlayer = () => {
   const currentTimer = useSelector((state) => state.workoutTimer.timer)
 
   useEffect(() => {
-    console.log("Текущий таймер:", currentTimer)
     const audioPayload = {
       id: currentTimer.phase,
       isPlaying: currentTimer.isRunning,
     }
-    console.log("Обновление состояния currentAudio:", audioPayload)
     dispatch(setAudio(audioPayload))
   }, [dispatch, currentTimer.phase, currentTimer.isRunning])
     
-  const createAudioObject = useCallback(() => {
+  const createAudioObject = useCallback(() => {    
     if (currentAudio && currentAudio.id) { 
-      const audioSrc = AUDIO_LIST[currentAudio.id]
+      const audioSrc = AUDIO_LIST[currentAudio.id];
 
       if (audioSrc) { 
         if (audioRef.current.src !== audioSrc) {
-          audioRef.current.src = audioSrc
+          audioRef.current.src = audioSrc;
         }
-        
-        audioRef.current.play()
-          .then(() => {
-            if (currentAudio.isPlaying) {
-              console.log("Аудио воспроизводится:", currentAudio.id)
-            } else {
-              console.log("Пауза звука, несмотря на успешное воспроизведение.")
-              audioRef.current.pause()
-            }
-          })
-          .catch(error => {
-            console.error("Ошибка воспроизведения аудио:", error)
-          });
 
+        if (currentAudio.isPlaying) {
+          audioRef.current.play().catch((error) => {  
+            console.log('Ошибка воспроизведения аудио:', error);
+          });
+        } else {
+          audioRef.current.pause();
+        }
       }
     }
   }, [currentAudio.id, currentAudio.isPlaying])
-
+  
   const clearAudio = () => {
+    // audioRef.current = new Audio();
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.src = '';
-      console.log("Аудио ресурс освобожден.")
     }
   }
 
   useEffect(() => {
-    console.log("Текущий аудио объект:", currentAudio)
     createAudioObject();
     return () => {
       clearAudio();
