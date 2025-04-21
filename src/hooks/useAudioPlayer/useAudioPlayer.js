@@ -1,58 +1,39 @@
-import { useEffect, useRef, useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setAudio } from '../../redux/slices/workoutTimerSlice'
-import { AUDIO_LIST } from "../../constants/constants.jsx"
+import { useEffect, useRef, useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import { AUDIO_LIST } from '../../constants/constants.jsx';
 
 export const useAudioPlayer = () => {
-  const dispatch = useDispatch()
-  const audioRef = useRef(new Audio())
-  const currentAudio = useSelector((state) => state.workoutTimer.timer.currentAudio)
-  const currentTimer = useSelector((state) => state.workoutTimer.timer)
+  const audioRef = useRef(null);
+  const currentAudio = useSelector((state) => state.workoutTimer.timer.currentAudio);
 
-  useEffect(() => {
-    const audioPayload = {
-      id: currentTimer.phase,
-      isPlaying: currentTimer.isRunning,
-    }
-    dispatch(setAudio(audioPayload))
-  }, [dispatch, currentTimer.phase, currentTimer.isRunning])
-    
-  const createAudioObject = useCallback(() => {    
-    if (currentAudio && currentAudio.id) { 
+  const createAudioObject = useCallback(() => {
+    if (currentAudio && currentAudio.id) {
       const audioSrc = AUDIO_LIST[currentAudio.id];
-
-      if (audioSrc) { 
-        if (audioRef.current.src !== audioSrc) {
-          audioRef.current.src = audioSrc;
-        }
-
-        if (currentAudio.isPlaying) {
-          audioRef.current.play().catch((error) => {  
-            console.log('Ошибка воспроизведения аудио:', error);
-          });
-        } else {
-          audioRef.current.pause();
-        }
-      }
+      audioRef.current = new Audio(audioSrc);
     }
-  }, [currentAudio.id, currentAudio.isPlaying])
-  
-  const clearAudio = () => {
-    // audioRef.current = new Audio();
-    if (audioRef.current) {
+  }, [currentAudio.id]);
+
+  const clearAudio = useCallback(() => {
+    if (audioRef.current && audioRef.current.played) {
       audioRef.current.pause();
-      audioRef.current.src = '';
+      audioRef.current = null;
     }
-  }
+  }, [currentAudio.id])
+
+  const pauseAudio = useCallback(() => {
+
+    setTimeout(() => {
+      currentAudio.isPlaying ? audioRef.current.play() : audioRef.current.pause();
+    }, 0);
+  }, [currentAudio.isPlaying]);
 
   useEffect(() => {
     createAudioObject();
-    return () => {
-      clearAudio();
-    }
-  }, [currentAudio, createAudioObject])
+    return clearAudio;
+  }, [currentAudio.id, createAudioObject])
 
-  return {
-    isPlaying: currentAudio?.isPlaying
-  }
-}
+  useEffect(() => {
+    if(audioRef.current)
+      pauseAudio()
+  }, [currentAudio.isPlaying, audioRef.current]);
+};

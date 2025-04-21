@@ -1,7 +1,6 @@
 import startSound from '../assets/sounds/startSound.mp3'
 import workingSound from '../assets/sounds/workingSound.mp3'
 import restSound from '../assets/sounds/restSound.mp3'
-import endSound from '../assets/sounds/endSound.mp3'
 
 export const PAGE_CONTENT = {
   '/': {
@@ -25,6 +24,5 @@ export const PAGE_CONTENT = {
 export const AUDIO_LIST = { // привязка фаза - мелодия
   preparation: startSound,
   workout: workingSound,
-  rest: restSound,
-  end:endSound
+  rest: restSound
 }
