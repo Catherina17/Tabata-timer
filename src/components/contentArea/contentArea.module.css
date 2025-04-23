@@ -26,3 +26,29 @@
     background-color: rgba(0, 0, 0, 0.5); 
     border-radius: 10px; 
 }
+
+@media screen and (max-width: 750px) {
+    .textOverlay {
+        display: none;
+    }
+
+    
+}
+
+@media (min-width: 550px) and (max-width: 1200px) {
+    .imageContainer {
+        margin-top: -50px;
+    }
+}
+
+@media (min-width: 470px) and (max-width: 650px) { 
+    .imageContainer {
+        margin-top: -40px;
+    }
+}
+
+@media screen and (max-width: 470px) {
+    .imageContainer {
+        margin-top: -70px;
+    }   
+}

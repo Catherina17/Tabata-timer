@@ -1,4 +1,4 @@
-import styles from './womenWorkouts.module.css';
+import styles from './womenWorkouts.module.css'
 
 export const WomenWorkouts = () => {
     return (

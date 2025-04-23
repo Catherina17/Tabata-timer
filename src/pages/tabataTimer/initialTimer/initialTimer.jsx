@@ -7,7 +7,9 @@ import styles from './initialTimer.module.css'
 
 export const InitialTimer = () => {
   const dispatch = useDispatch()
-  const { workoutPrograms, loading } = useSelector((state) => state.workoutTimer)
+  const workoutPrograms = useSelector((state) => state.workoutTimer.workoutPrograms)
+  const loading = useSelector((state) => state.workoutTimer.loading)
+  
   const [showCustomTimer, setShowCustomTimer] = useState(false)
   const [activeProgram, setActiveProgram] = useState(null)
 
@@ -29,13 +31,12 @@ export const InitialTimer = () => {
         <ul>
           {workoutPrograms.length > 0 ? (
             workoutPrograms.map((program) => (
-              <li key={program.id}>
-                <span 
-                  onClick={() => handleSelectProgram(program)} 
-                  className={activeProgram === program.id && !showCustomTimer ? styles.active : ''}
-                >
-                  {program.name}
-                </span>
+              <li 
+                key={program.id}
+                onClick={() => handleSelectProgram(program)} 
+                className={activeProgram === program.id && !showCustomTimer ? styles.active : ''}
+              >
+                {program.name}
               </li>
             ))
           ) : (

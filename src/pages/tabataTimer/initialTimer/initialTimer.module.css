@@ -7,6 +7,8 @@
 }
 
 .timerContent {
+    max-width: 800px;
+    width: 100%;
     background-color: white;
     padding: 30px; 
     margin: 20px; 
@@ -19,23 +21,20 @@
     list-style-type: none; 
     padding: 0; 
     display: flex; 
+    gap: 10px;
     justify-content: center; 
 }
 
 .timerContent li {
-    margin: 0 10px; 
-}
-
-.timerContent span {
     cursor: pointer; 
     padding: 10px 15px; 
     border: 1px solid #282c34;
     border-radius: 10px; 
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s, color 0.3s; 
 }
 
-.timerContent span:hover,
-.timerContent span.active {
+.timerContent li:hover,
+.timerContent li.active {
     background: #282c34; 
     color: white; 
 }
@@ -43,7 +42,7 @@
 .configureButton {
     margin-top: 20px; 
     cursor: pointer; 
-    padding: 10px 0; 
+    padding: 10px 5px; 
     border: 1px solid #282c34; 
     border-radius: 10px;
     transition: background 0.3s, color 0.3s; 
@@ -53,4 +52,20 @@
 .configureButton.active {
     background: #282c34; 
     color: white; 
+}
+
+
+@media (min-width: 500px) and (max-width: 830px) { 
+    .timerContent {
+        max-width: 620px;
+        width: 100%;
+        max-height: 580px;
+        height: 100%;
+    }
+}
+
+@media screen and (max-width: 500px) {   
+    .timerContent ul {
+        flex-direction: column;
+    }  
 }

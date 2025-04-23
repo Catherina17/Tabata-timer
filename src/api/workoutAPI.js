@@ -1,7 +1,7 @@
 export const workoutAPI = {
     async fetchWorkoutPrograms() {
         try {
-            const response = await fetch('https://run.mocky.io/v3/0b5f8b44-1b10-41d7-9898-aa1534124c13')
+            const response = await fetch('https://mocki.io/v1/844c055d-4750-4b6a-8a51-229cb46e0449')
             if (!response.ok) {
                 throw new Error('Network response was not ok')
             }
