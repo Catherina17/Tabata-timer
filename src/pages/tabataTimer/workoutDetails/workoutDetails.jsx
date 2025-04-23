@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { startTimer } from '../../../redux/slices/workoutTimerSlice'
 import { Button } from '../../../components/ui/button/button'
@@ -8,8 +7,6 @@ export const WorkoutDetails = () => {
     const dispatch = useDispatch()
     const selectedProgram = useSelector((state) => state.workoutTimer.timer.selectedProgram)
 
-    useEffect(() => {
-    }, [dispatch]);
 
     const handleStart = () => {
         dispatch(startTimer())

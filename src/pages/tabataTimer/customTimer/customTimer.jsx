@@ -17,11 +17,10 @@ export const CustomTimer = () => {
       workTime, 
       restTime, 
       rounds 
-    }));
+    }))
 
-    dispatch(startTimer());
-        
-  };
+    dispatch(startTimer())
+  }
 
   const handleWorkTimeChange = (e) => {
     const value = e.target.value === '' ? '' : Number(e.target.value)
